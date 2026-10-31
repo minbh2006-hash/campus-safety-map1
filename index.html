@@ -2,10 +2,16 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- 모바일 가로 100% 핏 및 두 손가락 핀치 줌(확대/축소) 허용 메타 설정 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
   <title>사회교육관 8층 완강기 디지털 안전 지도</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      -webkit-tap-highlight-color: transparent; 
+    }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Segoe UI", Roboto, sans-serif;
       background: #f8fafc;
@@ -16,41 +22,42 @@
     
     .header {
       text-align: center;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
     .header h1 {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 800;
       color: #0f172a;
       letter-spacing: -0.5px;
     }
     .header p {
-      font-size: 12px;
+      font-size: 11px;
       color: #64748b;
-      margin-top: 4px;
+      margin-top: 2px;
     }
     
+    /* 권한 상태 표시 바 */
     .auth-bar {
       background: #ffffff;
-      padding: 10px 14px;
-      border-radius: 12px;
+      padding: 8px 12px;
+      border-radius: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-      margin-bottom: 12px;
-      gap: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      margin-bottom: 10px;
+      gap: 6px;
     }
     .auth-status {
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
     }
     .badge {
       padding: 3px 8px;
-      border-radius: 14px;
+      border-radius: 12px;
       font-size: 11px;
       font-weight: 700;
     }
@@ -62,9 +69,9 @@
       background: #0f172a;
       color: #ffffff;
       border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 11px;
       font-weight: 700;
       cursor: pointer;
     }
@@ -74,34 +81,63 @@
       border: 1px solid #cbd5e1;
     }
 
-    .map-card {
-      background: #ffffff;
-      border-radius: 14px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-      padding: 12px;
-      position: relative;
+    /* 비상 직통 퀵 버튼 바 (도면을 볼 필요 없이 1초 직행) */
+    .quick-escape-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 10px;
     }
-    .scroll-hint {
+    .btn-quick-escape {
+      background: #ef4444;
+      color: #ffffff;
+      border: none;
+      padding: 10px 8px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 800;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 4px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3);
+      animation: pulseAlert 2s infinite;
+    }
+    .btn-quick-escape.east {
+      background: #2563eb;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+      animation: none;
+    }
+    @keyframes pulseAlert {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.95; transform: scale(0.98); }
+    }
+
+    /* 도면 카드: 모바일 한눈에 100% 핏 (가로 스크롤 완전 제거) */
+    .map-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      padding: 10px;
+      position: relative;
+      overflow: visible;
+    }
+    .map-notice {
+      display: flex;
+      justify-content: space-between;
       font-size: 11px;
       color: #64748b;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       font-weight: 600;
     }
-    .map-scroll-area {
-      width: 100%;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-      background: #fafafa;
-    }
     .map-container {
-      width: 880px;
+      width: 100%;
       position: relative;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      background: #fafafa;
+      overflow: hidden;
     }
     .map-container object {
       width: 100%;
@@ -110,28 +146,29 @@
       pointer-events: none;
     }
 
+    /* 외부인 모드: 강의실 번호 숨김 처리 */
     .hide-classroom-labels text {
       display: none !important;
     }
 
+    /* 완강기 터치 유효 반경 */
     .touch-target {
       position: absolute;
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      top: 40%;
+      width: 14%;
+      height: 45%;
+      top: 28%;
       z-index: 20;
       cursor: pointer;
     }
-    .target-left { left: 8.5%; }
-    .target-right { right: 2.2%; }
+    .target-left { left: 4%; }
+    .target-right { right: 0.5%; }
 
-    /* 바텀시트 모달 */
+    /* 모바일 바텀시트 모달 (화면 하단 슬라이드 업) */
     .sheet-overlay {
       display: none;
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.55);
+      background: rgba(0,0,0,0.6);
       z-index: 1000;
       align-items: flex-end;
     }
@@ -140,7 +177,7 @@
       width: 100%;
       border-radius: 20px 20px 0 0;
       padding: 20px 18px 28px 18px;
-      max-height: 90vh;
+      max-height: 88vh;
       overflow-y: auto;
       animation: slideUp 0.25s ease-out;
     }
@@ -162,6 +199,7 @@
       margin-bottom: 12px;
     }
 
+    /* 실물 완강기 사진 뷰어 */
     .photo-container {
       width: 100%;
       height: 200px;
@@ -170,9 +208,6 @@
       margin-bottom: 12px;
       background: #e2e8f0;
       border: 1px solid #cbd5e1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
     .photo-container img {
       width: 100%;
@@ -213,7 +248,7 @@
       line-height: 1.4;
     }
 
-    /* 비상 사용법 영상 버튼 */
+    /* 숏폼 영상 시청 버튼 */
     .btn-video {
       display: block;
       width: 100%;
@@ -229,6 +264,7 @@
       margin-top: 8px;
     }
 
+    /* 상세 안내 블록 */
     .sheet-info {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
@@ -290,6 +326,7 @@
     <p id="guideText">일반인 모드: 피난 구조 지도 (강의실 호수 비공개)</p>
   </div>
 
+  <!-- 권한 상태 바 -->
   <div class="auth-bar">
     <div class="auth-status">
       <span id="roleBadge" class="badge badge-guest">일반인용</span>
@@ -302,14 +339,27 @@
     </div>
   </div>
 
+  <!-- 비상 직통 퀵 버튼: 지도 탐색 없이 즉시 팝업 호출 -->
+  <div class="quick-escape-bar">
+    <button class="btn-quick-escape" onclick="showDescenderInfo('btn-8F-01')">
+      🚨 서측 완강기 (806호 앞)
+    </button>
+    <button class="btn-quick-escape east" onclick="showDescenderInfo('btn-8F-02')">
+      📍 동측 완강기 (809호 앞)
+    </button>
+  </div>
+
+  <!-- 모바일 도면 카드: 화면 100% 핏 및 터치 영역 -->
   <div class="map-card">
-    <div class="scroll-hint">👈 좌우로 밀어서 8층 전체를 확인하세요 👉</div>
-    <div class="map-scroll-area">
-      <div id="mapContainer" class="map-container hide-classroom-labels">
-        <object id="floorSvgObj" type="image/svg+xml" data="social_edu_8f.svg"></object>
-        <div class="touch-target target-left" onclick="showDescenderInfo('btn-8F-01')"></div>
-        <div class="touch-target target-right" onclick="showDescenderInfo('btn-8F-02')"></div>
-      </div>
+    <div class="map-notice">
+      <span>📐 8층 전체 피난 평면도</span>
+      <span style="color:#2563eb;">화면 두 손가락 확대(줌) 가능</span>
+    </div>
+    <div id="mapContainer" class="map-container hide-classroom-labels">
+      <object id="floorSvgObj" type="image/svg+xml" data="social_edu_8f.svg"></object>
+      <!-- 양 끝 터치 영역 -->
+      <div class="touch-target target-left" onclick="showDescenderInfo('btn-8F-01')"></div>
+      <div class="touch-target target-right" onclick="showDescenderInfo('btn-8F-02')"></div>
     </div>
   </div>
 
@@ -319,7 +369,7 @@
       <div class="sheet-handle"></div>
       <div id="modalTitle" class="sheet-title">완강기 정보</div>
       
-      <!-- 실물 현장 완강기 사진 -->
+      <!-- 실물 완강기 사진 -->
       <div class="photo-container">
         <img id="descenderPhoto" src="" alt="완강기 현장 사진">
       </div>
@@ -332,8 +382,8 @@
         </div>
         <div class="guide-grid">
           <div class="guide-step">
-            <strong style="color:#d97706;">1.</strong> 후크를 걸고 안전한지 확인      
-    </div>
+            <strong style="color:#d97706;">1.</strong> 후크를 걸고 안전한지 확인
+          </div>
           <div class="guide-step">
             <strong style="color:#d97706;">2.</strong> 릴을 걸리지 않게 아래로 투하
           </div>
@@ -344,7 +394,6 @@
             <strong style="color:#d97706;">4.</strong> 벽을 향해 짚으며 안전 하강
           </div>
         </div>
-        <!-- 추후 제작할 영상 링크 (YouTube 쇼츠 또는 영상 링크 연결용) -->
         <a id="videoLinkBtn" href="https://www.youtube.com/results?search_query=%EC%99%84%EA%B0%95%EA%B8%B0+%EC%82%AC%EC%9A%A9%EB%B2%95" target="_blank" class="btn-video">
           🎬 10초 완강기 사용법 시연 영상 보기
         </a>
@@ -363,6 +412,7 @@
       <div id="loginModalTitle" class="sheet-title">학번 인증</div>
       <p id="authNotice" style="font-size:13px; color:#64748b;">학번 10자리를 입력하면 강의실 위치와 점검 현황이 표시됩니다.</p>
       
+      <!-- inputmode="numeric", maxlength="10" 및 숫자 전용 정규식 필터 -->
       <input type="text" id="authInput" inputmode="numeric" maxlength="10" 
              oninput="this.value = this.value.replace(/[^0-9]/g, ''); updateCount();" 
              class="input-box" placeholder="10자리 학번 입력">
@@ -377,9 +427,10 @@
   </div>
 
   <script>
-    let currentRole = 'guest';
+    let currentRole = 'guest'; // 'guest', 'student', 'admin'
     let targetAuthType = '';
 
+    // 실측 성능 제원표 데이터 (형식/제조번호 제외, 실물 사진 연결)
     const descenderData = {
       'btn-8F-01': {
         name: '8F-01 완강기 (서측/806호 앞)',
@@ -436,6 +487,7 @@
         repairDiv.innerHTML = '';
       }
 
+      // 외부인 기본 노출 정보
       let html = `
         <strong>📍 설치 위치:</strong> ${data.location}<br>
         <strong>📅 제조년월:</strong> ${data.mfgDate}<br>
@@ -445,6 +497,7 @@
         <strong>상태:</strong> ${data.isRepairing ? '<span style="color:red; font-weight:bold;">보수 조치 중</span>' : '정상 작동'}<br>
       `;
 
+      // 내부인 (학번 10자리) 노출 정보
       if (currentRole === 'student' || currentRole === 'admin') {
         html += `
           <hr style="margin: 10px 0; border: none; border-top: 1px dashed #cbd5e1;">
@@ -460,6 +513,7 @@
         `;
       }
 
+      // 관리자 전용 정보
       if (currentRole === 'admin') {
         html += `
           <hr style="margin: 10px 0; border: none; border-top: 1px dashed #cbd5e1;">
@@ -529,6 +583,7 @@
       closeSheet('loginModal');
     }
 
+    // 도면 강의실 번호 표시 On/Off
     function applyMapDisplay(showClassroom) {
       const mapContainer = document.getElementById('mapContainer');
       const svgObj = document.getElementById('floorSvgObj');

@@ -162,7 +162,6 @@
       margin-bottom: 12px;
     }
 
-    /* 실물 현장 완강기 사진 컨테이너 */
     .photo-container {
       width: 100%;
       height: 220px;
@@ -266,13 +265,12 @@
     </div>
   </div>
 
-  <!-- 모바일 바텀시트 모달 (실물 사진 뷰어 포함) -->
+  <!-- 바텀시트 모달 -->
   <div id="infoModal" class="sheet-overlay" onclick="closeOnOverlay(event, 'infoModal')">
     <div class="sheet-box">
       <div class="sheet-handle"></div>
       <div id="modalTitle" class="sheet-title">완강기 정보</div>
       
-      <!-- 실물 현장 완강기 사진 표시 영역 -->
       <div class="photo-container">
         <img id="descenderPhoto" src="" alt="완강기 현장 사진">
       </div>
@@ -307,35 +305,37 @@
     let currentRole = 'guest'; // 'guest', 'student', 'admin'
     let targetAuthType = '';
 
-    // 완강기 데이터 (사진 연결 및 점검자/점검일 공란 처리)
+    // 실물 성능 제원표 데이터 반영
     const descenderData = {
       'btn-8F-01': {
         name: '8F-01 완강기 (서측/806호 앞)',
-        image: '8F-01.jpg', // 첫 번째 사진 (소화기 표지판/서측 창가)
+        image: '8F-01.jpg',
         location: '사회교육관 8층 서측 복도 끝 외벽',
-        rope: '24m (8층 전용 규격)',
-        load: '150kg (1인용)',
+        mfgDate: '2009년 1월',
+        rope: '24m',
+        users: '1명',
+        load: '100kg',
         isRepairing: true,
         repairNote: '⚠️ 로프 링 점검 진행 중 (8F-02 또는 서측 비상계단 이용 권장)',
-        // 점검자 및 점검일 공란(미기재) 처리
         inspector: '(미기재 / 점검 예정)',
         lastCheck: '(미기재 / 점검 예정)',
         dept: '명지전문대학 시설관리팀 (내선 02-300-XXXX)',
-        vendor: '(주)한국소방안전시스템 (010-XXXX-XXXX)'
+        vendor: '신영공업(주) (031-498-0731)'
       },
       'btn-8F-02': {
         name: '8F-02 완강기 (동측/809호 앞)',
-        image: '8F-02.jpg', // 세 번째 사진 (적벽돌 건물 배경/동측 창가)
+        image: '8F-02.jpg',
         location: '사회교육관 8층 동측 복도 끝 외벽',
-        rope: '24m (8층 전용 규격)',
-        load: '150kg (1인용)',
+        mfgDate: '2009년 1월',
+        rope: '24m',
+        users: '1명',
+        load: '100kg',
         isRepairing: false,
         repairNote: '',
-        // 점검자 및 점검일 공란(미기재) 처리
         inspector: '(미기재 / 점검 예정)',
         lastCheck: '(미기재 / 점검 예정)',
         dept: '명지전문대학 시설관리팀 (내선 02-300-XXXX)',
-        vendor: '(주)한국소방안전시스템 (010-XXXX-XXXX)'
+        vendor: '신영공업(주) (031-498-0731)'
       }
     };
 
@@ -352,11 +352,9 @@
 
       document.getElementById('modalTitle').innerText = data.name;
 
-      // 현장 사진 적용
       const photoEl = document.getElementById('descenderPhoto');
       photoEl.src = data.image;
 
-      // 보수 배너
       const repairDiv = document.getElementById('repairBox');
       if (data.isRepairing) {
         repairDiv.innerHTML = `<div class="repair-banner">🚨 [보수상황 발생] ${data.repairNote}</div>`;
@@ -364,15 +362,17 @@
         repairDiv.innerHTML = '';
       }
 
-      // 외부인 기본 제원
+      // 제원표 실물 정보 표기
       let html = `
         <strong>📍 설치 위치:</strong> ${data.location}<br>
-        <strong>📏 로프 제원:</strong> ${data.rope}<br>
-        <strong>⚖️ 허용 하중:</strong> ${data.load}<br>
+        <strong>📅 제조년월:</strong> ${data.mfgDate}<br>
+        <strong>📏 로프의 길이:</strong> ${data.rope}<br>
+        <strong>👤 최대사용자수:</strong> ${data.users}<br>
+        <strong>⚖️ 최대사용하중:</strong> ${data.load}<br>
         <strong>상태:</strong> ${data.isRepairing ? '<span style="color:red; font-weight:bold;">보수 조치 중</span>' : '정상 작동'}<br>
       `;
 
-      // 내부인 (학번 10자리) 열람 정보
+      // 내부인 (학번 10자리)
       if (currentRole === 'student' || currentRole === 'admin') {
         html += `
           <hr style="margin: 10px 0; border: none; border-top: 1px dashed #cbd5e1;">
@@ -388,13 +388,13 @@
         `;
       }
 
-      // 관리자 전용
+      // 관리자
       if (currentRole === 'admin') {
         html += `
           <hr style="margin: 10px 0; border: none; border-top: 1px dashed #cbd5e1;">
           <strong style="color:#b91c1c;">🏢 [관리자 전용]</strong><br>
           <strong>담당 관리부서:</strong> ${data.dept}<br>
-          <strong>유지보수 업체/명의:</strong> ${data.vendor}<br>
+          <strong>제조/유지보수사:</strong> ${data.vendor}<br>
         `;
       }
 

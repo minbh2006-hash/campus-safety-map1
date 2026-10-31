@@ -2,7 +2,6 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <!-- 모바일 뷰포트 확대 축소 방지 및 1:1 모바일 핏 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>사회교육관 8층 완강기 디지털 안전 지도</title>
   <style>
@@ -15,7 +14,6 @@
       line-height: 1.5;
     }
     
-    /* 모바일 헤더 */
     .header {
       text-align: center;
       margin-bottom: 12px;
@@ -32,7 +30,6 @@
       margin-top: 4px;
     }
     
-    /* 권한 상태 바 */
     .auth-bar {
       background: #ffffff;
       padding: 10px 14px;
@@ -77,7 +74,6 @@
       border: 1px solid #cbd5e1;
     }
 
-    /* 모바일 가로 스크롤 도면 카드 */
     .map-card {
       background: #ffffff;
       border-radius: 14px;
@@ -104,7 +100,7 @@
       background: #fafafa;
     }
     .map-container {
-      width: 880px; /* 스마트폰 가로 스크롤 시 도면과 글자가 뭉개지지 않는 최적 폭 */
+      width: 880px;
       position: relative;
     }
     .map-container object {
@@ -114,12 +110,10 @@
       pointer-events: none;
     }
 
-    /* 외부인 모드: 강의실 번호 숨김 처리 */
     .hide-classroom-labels text {
       display: none !important;
     }
 
-    /* 모바일 터치 최적화 히트박스 */
     .touch-target {
       position: absolute;
       width: 55px;
@@ -132,7 +126,7 @@
     .target-left { left: 8.5%; }
     .target-right { right: 2.2%; }
 
-    /* 모바일 바텀시트 모달 (화면 하단 슬라이드 업) */
+    /* 바텀시트 모달 */
     .sheet-overlay {
       display: none;
       position: fixed;
@@ -145,8 +139,8 @@
       background: #ffffff;
       width: 100%;
       border-radius: 20px 20px 0 0;
-      padding: 22px 20px 30px 20px;
-      max-height: 85vh;
+      padding: 20px 18px 28px 18px;
+      max-height: 88vh;
       overflow-y: auto;
       animation: slideUp 0.25s ease-out;
     }
@@ -159,7 +153,7 @@
       height: 4px;
       background: #cbd5e1;
       border-radius: 2px;
-      margin: 0 auto 16px auto;
+      margin: 0 auto 14px auto;
     }
     .sheet-title {
       font-size: 18px;
@@ -168,7 +162,26 @@
       margin-bottom: 12px;
     }
 
-    /* 상세 안내 블록 */
+    /* 실물 현장 완강기 사진 컨테이너 */
+    .photo-container {
+      width: 100%;
+      height: 220px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      background: #e2e8f0;
+      border: 1px solid #cbd5e1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .photo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
     .sheet-info {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
@@ -210,13 +223,12 @@
       cursor: pointer;
     }
 
-    /* 인증 팝업 */
     .input-box {
       width: 100%;
       padding: 14px;
       border: 1.5px solid #cbd5e1;
       border-radius: 10px;
-      font-size: 16px; /* iOS 자동 줌 방지용 16px */
+      font-size: 16px;
       letter-spacing: 2px;
       text-align: center;
       font-weight: 700;
@@ -231,7 +243,6 @@
     <p id="guideText">일반인 모드: 피난 구조 지도 (강의실 호수 비공개)</p>
   </div>
 
-  <!-- 권한 전환 바 -->
   <div class="auth-bar">
     <div class="auth-status">
       <span id="roleBadge" class="badge badge-guest">일반인용</span>
@@ -244,24 +255,28 @@
     </div>
   </div>
 
-  <!-- 모바일 도면 카드 -->
   <div class="map-card">
     <div class="scroll-hint">👈 좌우로 밀어서 8층 전체를 확인하세요 👉</div>
     <div class="map-scroll-area">
       <div id="mapContainer" class="map-container hide-classroom-labels">
         <object id="floorSvgObj" type="image/svg+xml" data="social_edu_8f.svg"></object>
-        <!-- 터치 타겟 -->
         <div class="touch-target target-left" onclick="showDescenderInfo('btn-8F-01')"></div>
         <div class="touch-target target-right" onclick="showDescenderInfo('btn-8F-02')"></div>
       </div>
     </div>
   </div>
 
-  <!-- 모바일 바텀시트 상세 팝업 -->
+  <!-- 모바일 바텀시트 모달 (실물 사진 뷰어 포함) -->
   <div id="infoModal" class="sheet-overlay" onclick="closeOnOverlay(event, 'infoModal')">
     <div class="sheet-box">
       <div class="sheet-handle"></div>
       <div id="modalTitle" class="sheet-title">완강기 정보</div>
+      
+      <!-- 실물 현장 완강기 사진 표시 영역 -->
+      <div class="photo-container">
+        <img id="descenderPhoto" src="" alt="완강기 현장 사진">
+      </div>
+
       <div id="repairBox"></div>
       <div id="modalContent" class="sheet-info">로딩 중...</div>
       <button class="btn-main" onclick="closeSheet('infoModal')">확인 (닫기)</button>
@@ -275,7 +290,6 @@
       <div id="loginModalTitle" class="sheet-title">학번 인증</div>
       <p id="authNotice" style="font-size:13px; color:#64748b;">학번 10자리를 입력하면 강의실 위치와 점검 현황이 표시됩니다.</p>
       
-      <!-- inputmode="numeric"으로 스마트폰에서 바로 숫자 키패드 호출 -->
       <input type="text" id="authInput" inputmode="numeric" maxlength="10" 
              oninput="this.value = this.value.replace(/[^0-9]/g, ''); updateCount();" 
              class="input-box" placeholder="10자리 학번 입력">
@@ -293,28 +307,33 @@
     let currentRole = 'guest'; // 'guest', 'student', 'admin'
     let targetAuthType = '';
 
+    // 완강기 데이터 (사진 연결 및 점검자/점검일 공란 처리)
     const descenderData = {
       'btn-8F-01': {
         name: '8F-01 완강기 (서측/806호 앞)',
+        image: '8F-01.jpg', // 첫 번째 사진 (소화기 표지판/서측 창가)
         location: '사회교육관 8층 서측 복도 끝 외벽',
         rope: '24m (8층 전용 규격)',
         load: '150kg (1인용)',
         isRepairing: true,
         repairNote: '⚠️ 로프 링 점검 진행 중 (8F-02 또는 서측 비상계단 이용 권장)',
-        inspector: '김철수 (시설안전팀 점검원)',
-        lastCheck: '2026-10-24 (적합)',
+        // 점검자 및 점검일 공란(미기재) 처리
+        inspector: '(미기재 / 점검 예정)',
+        lastCheck: '(미기재 / 점검 예정)',
         dept: '명지전문대학 시설관리팀 (내선 02-300-XXXX)',
         vendor: '(주)한국소방안전시스템 (010-XXXX-XXXX)'
       },
       'btn-8F-02': {
         name: '8F-02 완강기 (동측/809호 앞)',
+        image: '8F-02.jpg', // 세 번째 사진 (적벽돌 건물 배경/동측 창가)
         location: '사회교육관 8층 동측 복도 끝 외벽',
         rope: '24m (8층 전용 규격)',
         load: '150kg (1인용)',
         isRepairing: false,
         repairNote: '',
-        inspector: '이영희 (시설안전팀 주임)',
-        lastCheck: '2026-10-28 (적합)',
+        // 점검자 및 점검일 공란(미기재) 처리
+        inspector: '(미기재 / 점검 예정)',
+        lastCheck: '(미기재 / 점검 예정)',
         dept: '명지전문대학 시설관리팀 (내선 02-300-XXXX)',
         vendor: '(주)한국소방안전시스템 (010-XXXX-XXXX)'
       }
@@ -333,6 +352,11 @@
 
       document.getElementById('modalTitle').innerText = data.name;
 
+      // 현장 사진 적용
+      const photoEl = document.getElementById('descenderPhoto');
+      photoEl.src = data.image;
+
+      // 보수 배너
       const repairDiv = document.getElementById('repairBox');
       if (data.isRepairing) {
         repairDiv.innerHTML = `<div class="repair-banner">🚨 [보수상황 발생] ${data.repairNote}</div>`;
@@ -348,13 +372,13 @@
         <strong>상태:</strong> ${data.isRepairing ? '<span style="color:red; font-weight:bold;">보수 조치 중</span>' : '정상 작동'}<br>
       `;
 
-      // 내부인 (학번 10자리)
+      // 내부인 (학번 10자리) 열람 정보
       if (currentRole === 'student' || currentRole === 'admin') {
         html += `
           <hr style="margin: 10px 0; border: none; border-top: 1px dashed #cbd5e1;">
           <strong style="color:#1d4ed8;">📋 [내부인 열람 정보]</strong><br>
-          <strong>최근 점검자:</strong> ${data.inspector}<br>
-          <strong>최종 점검일:</strong> ${data.lastCheck}<br>
+          <strong>최근 점검자:</strong> <span style="color:#64748b;">${data.inspector}</span><br>
+          <strong>최종 점검일:</strong> <span style="color:#64748b;">${data.lastCheck}</span><br>
         `;
       } else {
         html += `
@@ -364,7 +388,7 @@
         `;
       }
 
-      // 관리자
+      // 관리자 전용
       if (currentRole === 'admin') {
         html += `
           <hr style="margin: 10px 0; border: none; border-top: 1px dashed #cbd5e1;">
@@ -417,7 +441,7 @@
         applyMapDisplay(true);
         updateRoleUI('교내 구성원', 'badge-student', `학번: ${val}`);
         document.getElementById('guideText').innerText = '내부인 모드: 강의실 번호 및 점검자 정보 활성화';
-        alert(`학번(${val}) 인증 완료! 강의실 번호와 점검자 정보가 표시됩니다.`);
+        alert(`학번(${val}) 인증 완료! 강의실 번호가 표시됩니다.`);
       } else if (targetAuthType === 'admin') {
         if (val === 'admin1234') {
           currentRole = 'admin';

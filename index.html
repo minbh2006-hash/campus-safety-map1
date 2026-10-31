@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>사회교육관 8층 완강기 안전 지도</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      padding: 16px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .header h1 {
+      font-size: 20px;
+      margin-bottom: 6px;
+      color: #0f172a;
+    }
+    .header p {
+      font-size: 13px;
+      color: #64748b;
+    }
+    /* 도면 반응형 컨테이너 */
+    .map-card {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      padding: 16px;
+      overflow-x: auto;
+    }
+    .map-container {
+      width: 100%;
+      min-width: 600px; /* 모바일에서 도면 비율 유지 */
+    }
+    .map-container object {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    /* 완강기 상세정보 팝업 모달 */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.55);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-box {
+      background: #ffffff;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 14px;
+      padding: 24px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1d63d8;
+      margin-bottom: 14px;
+    }
+    .modal-info {
+      text-align: left;
+      background: #f1f5f9;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.8;
+      margin-bottom: 18px;
+    }
+    .close-btn {
+      width: 100%;
+      background: #1d63d8;
+      color: #ffffff;
+      border: none;
+      padding: 12px 0;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>사회교육관 8층 완강기 디지털 안전 지도</h1>
+    <p>도면의 파란색 [완강] 마커를 터치하면 세부 제원 및 점검 상태가 표시됩니다.</p>
+  </div>
+
+  <div class="map-card">
+    <div class="map-container">
+      <object id="floor-svg" type="image/svg+xml" data="social_edu_8f.svg"></object>
+    </div>
+  </div>
+
+  <!-- 상세정보 팝업창 -->
+  <div id="infoModal" class="modal-overlay" onclick="closeModalOnBg(event)">
+    <div class="modal-box">
+      <div id="modalTitle" class="modal-title">완강기 정보</div>
+      <div id="modalContent" class="modal-info">로딩 중...</div>
+      <button class="close-btn" onclick="closeModal()">확인 (닫기)</button>
+    </div>
+  </div>
+
+  <script>
+    const descenderData = {
+      'btn-8F-01': {
+        title: '8F-01 완강기 (서측/806호 앞)',
+        location: '사회교육관 8층 서측 복도 끝 외벽',
+        ropeLength: '24m (8층 전용 규격)',
+        maxLoad: '150kg (1인용)',
+        checkStatus: '정상 작동 (월간 점검 완료)'
+      },
+      'btn-8F-02': {
+        title: '8F-02 완강기 (동측/809호 앞)',
+        location: '사회교육관 8층 동측 복도 끝 외벽',
+        ropeLength: '24m (8층 전용 규격)',
+        maxLoad: '150kg (1인용)',
+        checkStatus: '정상 작동 (월간 점검 완료)'
+      }
+    };
+
+    const svgObject = document.getElementById('floor-svg');
+    svgObject.addEventListener('load', function() {
+      const svgDoc = svgObject.contentDocument;
+      if (!svgDoc) return;
+
+      ['btn-8F-01', 'btn-8F-02'].forEach(id => {
+        const targetBtn = svgDoc.getElementById(id);
+        if (targetBtn) {
+          targetBtn.style.cursor = 'pointer';
+          targetBtn.addEventListener('click', () => openModal(id));
+        }
+      });
+    });
+
+    function openModal(id) {
+      const data = descenderData[id];
+      if (!data) return;
+      document.getElementById('modalTitle').innerText = data.title;
+      document.getElementById('modalContent').innerHTML = `
+        <strong>설치 위치:</strong> ${data.location}<br>
+        <strong>로프 제원:</strong> ${data.ropeLength}<br>
+        <strong>최대 하중:</strong> ${data.maxLoad}<br>
+        <strong>점검 상태:</strong> ${data.checkStatus}
+      `;
+      document.getElementById('infoModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('infoModal').style.display = 'none';
+    }
+
+    function closeModalOnBg(e) {
+      if (e.target.id === 'infoModal') closeModal();
+    }
+  </script>
+</body>
+</html>

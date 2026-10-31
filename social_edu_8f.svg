@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:lc="https://librecad.org" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 181290.8 93603.6806">
+<style>
+  path, line, polyline, polygon, circle, rect {
+    vector-effect: non-scaling-stroke;
+    stroke-width: 2.5px !important;
+  }
+</style>
+    <g lc:layername="0" lc:is_locked="false" lc:is_construction="false" fill="none" stroke="black" stroke-width="1"/>
+    <g lc:layername="????_???????" lc:is_locked="false" lc:is_construction="false" fill="none" stroke="black" stroke-width="1">
+        <line x1="28548.51118046" y1="35775.19185848" x2="28558.51118046" y2="35775.19185848"/>
+        <line x1="12317.07393396" y1="23016.15163486" x2="12327.07393396" y2="23016.15163486"/>
+        <line x1="107327.8" y1="17668.7806" x2="123434.8" y2="10765.6806"/>
+        <line x1="107163.5" y1="10519.0806" x2="123434.8" y2="17750.9806"/>
+        <line x1="107245.6" y1="10601.2806" x2="123517.8" y2="10519.0806"/>
+        <line x1="107327.8" y1="17586.6806" x2="107245.6" y2="10601.2806"/>
+        <line x1="123517.8" y1="10519.0806" x2="123599.8" y2="19312.4806"/>
+        <line x1="107574.4" y1="28352.2806" x2="107327.8" y2="17175.7806"/>
+        <line x1="115381.8" y1="18079.6806" x2="115299.8" y2="28352.2806"/>
+        <line x1="107492.2" y1="17586.6806" x2="123270.8" y2="17750.9806"/>
+        <line x1="123270.8" y1="17750.9806" x2="123270.8" y2="28516.6806"/>
+        <line x1="140446.8" y1="164.3612" x2="140281.8" y2="28598.8806"/>
+        <line x1="12397.827" y1="28426.6806" x2="181172.8" y2="28507.3806"/>
+        <line x1="181290.8" y1="328.7226" x2="0" y2="0"/>
+        <line x1="180879.8" y1="93110.5806" x2="181290.8" y2="328.7226"/>
+        <line x1="65169.2" y1="93603.6806" x2="180879.8" y2="93110.5806"/>
+        <line x1="65004.8" y1="57690.7806" x2="64922.6" y2="74866.4806"/>
+        <line x1="64922.6" y1="74784.3806" x2="65169.2" y2="93603.6806"/>
+        <line x1="40186.3" y1="74784.3806" x2="64922.6" y2="74784.3806"/>
+        <line x1="40186.3" y1="57855.1806" x2="40186.3" y2="74784.3806"/>
+        <line x1="12074.814" y1="57578.5806" x2="180929.8" y2="57578.5806"/>
+        <line x1="12327.064" y1="57690.7806" x2="40186.3" y2="57855.1806"/>
+        <line x1="12655.787" y1="28516.6806" x2="12327.064" y2="57690.7806"/>
+        <line x1="575.2" y1="28434.4806" x2="12655.787" y2="28516.6806"/>
+        <line x1="82.2" y1="0" x2="328.7" y2="28352.2806"/>
+    </g>
+    <g lc:layername="????_?????" lc:is_locked="false" lc:is_construction="false" fill="none" stroke="black" stroke-width="1">
+        <line x1="16025.19073852" y1="28516.66512938" x2="16107.37132964" y2="82.1806"/>
+        <line x1="77824.9952648" y1="57608.59438776" x2="77742.81467368" y2="93439.33211843"/>
+        <line x1="96151.26708576" y1="57690.77497889" x2="96233.44767689" y2="93521.51270955"/>
+        <line x1="112505.20471971" y1="57772.95557001" x2="112505.20471971" y2="93357.1515273"/>
+        <line x1="147021.05299237" y1="57772.95557001" x2="147103.23358349" y2="93192.79034505"/>
+        <line x1="47253.81536616" y1="82.1806" x2="47335.99595729" y2="28434.48453825"/>
+        <line x1="77003.18935355" y1="164.36119113" x2="77003.18935355" y2="28434.48453825"/>
+    </g>
+    <g lc:layername="????_?????" lc:is_locked="false" lc:is_construction="false" fill="none" stroke="black" stroke-width="1"/>
+<!-- 호실 번호 및 중앙 복도 글자 -->
+<!-- 호실 번호, 시설물 및 복도 글자 -->
+  <g font-family="sans-serif" font-size="4000" font-weight="bold" fill="#222222" text-anchor="middle">
+    <!-- 위쪽 강의실 및 편의시설 (806 ~ 809) -->
+<text x="132000" y="16000" font-size="2800" fill="#008080">비상계단</text>
+    <text x="8000" y="16000">806</text>
+    <text x="31500" y="16000">807</text>
+    <text x="62000" y="16000">808</text>
+    <text x="92000" y="16000" font-size="3400" fill="#008080">화장실</text>
+    <text x="160000" y="16000">809</text>
+
+    <!-- 엘리베이터 (하단 문 영역 정중앙) -->
+    <text x="115300" y="24500" font-size="2000" fill="#333333">엘리베이터</text>
+
+    <!-- 중앙 복도 (가로·세로 정중앙) -->
+    <text x="95000" y="44000" font-size="4500" fill="#555555">복도</text>
+
+    <!-- 비상계단 (단차 구획 중앙) -->
+    <text x="52500" y="66000" font-size="3200" fill="#008080">비상계단</text>
+
+    <!-- 아래쪽 강의실 (805 ~ 801) -->
+    <text x="71500" y="78000">805</text>
+    <text x="87000" y="78000">804</text>
+    <text x="104500" y="78000">803</text>
+    <text x="130000" y="78000">802</text>
+    <text x="164000" y="78000">801</text>
+  </g>
+<!-- 좌측 완강기 (8F-01) - 복도 안쪽으로 위치 조정 -->
+  <g id="btn-8F-01" style="cursor: pointer;">
+    <circle cx="20500" cy="44000" r="4500" fill="#1d63d8" stroke="#ffffff" stroke-width="600" />
+    <text x="20500" y="45500" font-size="2800" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="sans-serif">완강</text>
+    <text x="20500" y="52500" font-size="2400" font-weight="bold" fill="#888888" text-anchor="middle" font-family="sans-serif">8F-01</text>
+  </g>
+  <!-- 우측 완강기 (8F-02) -->
+  <g id="btn-8F-02" style="cursor: pointer;">
+    <circle cx="172000" cy="44000" r="4500" fill="#1d63d8" stroke="#ffffff" stroke-width="600" />
+    <text x="172000" y="45500" font-size="2800" font-weight="bold" fill="#ffffff" text-anchor="middle" font-family="sans-serif">완강</text>
+    <text x="172000" y="52500" font-size="2400" font-weight="bold" fill="#888888" text-anchor="middle" font-family="sans-serif">8F-02</text>
+  </g> 
+</svg>

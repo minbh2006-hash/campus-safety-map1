@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>사회교육관 8층 완강기 안전 지도</title>
+  <title>사회교육관 8층 완강기 디지털 안전 지도</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: #f8fafc;
+      background: #f1f5f9;
       color: #1e293b;
       padding: 16px;
     }
@@ -18,14 +18,60 @@
     }
     .header h1 {
       font-size: 20px;
-      margin-bottom: 6px;
+      font-weight: 700;
       color: #0f172a;
+      margin-bottom: 6px;
     }
-    .header p {
-      font-size: 13px;
-      color: #64748b;
+    
+    /* 사용자 권한 배지 및 전환 바 */
+    .auth-bar {
+      max-width: 1100px;
+      margin: 0 auto 14px auto;
+      background: #ffffff;
+      padding: 10px 16px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      flex-wrap: wrap;
+      gap: 10px;
     }
-    /* 도면 반응형 컨테이너 */
+    .auth-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+    }
+    .badge-guest { background: #e2e8f0; color: #475569; }
+    .badge-student { background: #dbeafe; color: #1d4ed8; }
+    .badge-admin { background: #fee2e2; color: #b91c1c; }
+    
+    .auth-btn-group {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-auth {
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .btn-auth.secondary {
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    /* 도면 박스 */
     .map-card {
       max-width: 1100px;
       margin: 0 auto;
@@ -37,14 +83,30 @@
     }
     .map-container {
       width: 100%;
-      min-width: 600px; /* 모바일에서 도면 비율 유지 */
+      min-width: 600px;
+      position: relative;
     }
     .map-container object {
       width: 100%;
       height: auto;
       display: block;
+      pointer-events: none;
     }
-    /* 완강기 상세정보 팝업 모달 */
+
+    /* 히트박스 */
+    .click-target {
+      position: absolute;
+      width: 6%;
+      height: 12%;
+      cursor: pointer;
+      border-radius: 50%;
+      top: 42%;
+      z-index: 10;
+    }
+    .target-left { left: 9.5%; }
+    .target-right { right: 3%; }
+
+    /* 팝업 모달 */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -58,9 +120,9 @@
     .modal-box {
       background: #ffffff;
       width: 100%;
-      max-width: 420px;
+      max-width: 440px;
       border-radius: 14px;
-      padding: 24px;
+      padding: 22px;
       text-align: center;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
     }
@@ -72,13 +134,40 @@
     }
     .modal-info {
       text-align: left;
-      background: #f1f5f9;
+      background: #f8fafc;
       padding: 14px;
       border-radius: 8px;
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.8;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
+      border: 1px solid #e2e8f0;
     }
+    
+    /* 긴급 보수 상황 배너 */
+    .repair-banner {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #dc2626;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .restricted-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #b45309;
+      margin-top: 8px;
+    }
+
     .close-btn {
       width: 100%;
       background: #1d63d8;
@@ -86,9 +175,28 @@
       border: none;
       padding: 12px 0;
       border-radius: 8px;
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
+    }
+
+    /* 입력용 팝업 */
+    .input-group {
+      margin: 16px 0;
+      text-align: left;
+    }
+    .input-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -96,75 +204,235 @@
 
   <div class="header">
     <h1>사회교육관 8층 완강기 디지털 안전 지도</h1>
-    <p>도면의 파란색 [완강] 마커를 터치하면 세부 제원 및 점검 상태가 표시됩니다.</p>
+    <p>도면의 파란색 [완강] 마커를 터치하여 세부 정보를 확인하세요.</p>
+  </div>
+
+  <!-- 권한 인증 상단 바 -->
+  <div class="auth-bar">
+    <div class="auth-status">
+      <span>접속 모드:</span>
+      <span id="roleBadge" class="badge badge-guest">일반인 (외부인용)</span>
+      <span id="userInfoText" style="font-size: 12px; color: #64748b;"></span>
+    </div>
+    <div class="auth-btn-group">
+      <button class="btn-auth" onclick="openAuthModal('student')">학번 인증 (내부인용)</button>
+      <button class="btn-auth secondary" onclick="openAuthModal('admin')">관리자 모드</button>
+      <button id="logoutBtn" class="btn-auth secondary" style="display:none;" onclick="logout()">로그아웃</button>
+    </div>
   </div>
 
   <div class="map-card">
     <div class="map-container">
-      <object id="floor-svg" type="image/svg+xml" data="social_edu_8f.svg"></object>
+      <object type="image/svg+xml" data="social_edu_8f.svg"></object>
+      <!-- 완강기 터치 영역 -->
+      <div class="click-target target-left" onclick="showDescenderInfo('btn-8F-01')" title="8F-01 완강기"></div>
+      <div class="click-target target-right" onclick="showDescenderInfo('btn-8F-02')" title="8F-02 완강기"></div>
     </div>
   </div>
 
-  <!-- 상세정보 팝업창 -->
+  <!-- 상세 모달 -->
   <div id="infoModal" class="modal-overlay" onclick="closeModalOnBg(event)">
     <div class="modal-box">
       <div id="modalTitle" class="modal-title">완강기 정보</div>
+      <div id="repairBox"></div>
       <div id="modalContent" class="modal-info">로딩 중...</div>
-      <button class="close-btn" onclick="closeModal()">확인 (닫기)</button>
+      <button class="close-btn" onclick="closeModal('infoModal')">확인 (닫기)</button>
+    </div>
+  </div>
+
+  <!-- 학번 / 관리자 인증 모달 -->
+  <div id="loginModal" class="modal-overlay">
+    <div class="modal-box">
+      <div id="loginModalTitle" class="modal-title">내부인 인증</div>
+      <div class="input-group">
+        <label id="inputLabel" for="authInput">학번 입력</label>
+        <input type="text" id="authInput" placeholder="학번을 입력하세요 (예: 2025123456)">
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button class="close-btn" style="background: #64748b;" onclick="closeModal('loginModal')">취소</button>
+        <button class="close-btn" onclick="submitAuth()">인증하기</button>
+      </div>
     </div>
   </div>
 
   <script>
+    // 현재 권한: 'guest' (외부인), 'student' (내부인/학생), 'admin' (관리자)
+    let currentRole = 'guest';
+    let currentStudentId = '';
+    let targetAuthType = '';
+
+    // 완강기 데이터베이스
     const descenderData = {
       'btn-8F-01': {
-        title: '8F-01 완강기 (서측/806호 앞)',
+        name: '8F-01 완강기 (서측/806호 앞)',
         location: '사회교육관 8층 서측 복도 끝 외벽',
-        ropeLength: '24m (8층 전용 규격)',
-        maxLoad: '150kg (1인용)',
-        checkStatus: '정상 작동 (월간 점검 완료)'
+        rope: '24m (8층 전용)',
+        load: '150kg (1인용)',
+        // 보수 상황 발생 플래그 (true: 긴급 보수 상황, false: 정상)
+        isRepairing: true,
+        repairNote: '⚠️ 링 마모 점검 진행 중 (대체 완강기: 8F-02 또는 계단 피난 권장)',
+        // 내부인 열람 정보
+        inspector: '김철수 (시설안전팀 전문점검원)',
+        lastCheck: '2026-10-24 (적합)',
+        // 관리자 전용 정보
+        dept: '명지전문대학 시설관리팀 (내선: 02-300-XXXX)',
+        vendor: '(주)한국소방안전시스템 (대표: 박안전, 010-XXXX-XXXX)'
       },
       'btn-8F-02': {
-        title: '8F-02 완강기 (동측/809호 앞)',
+        name: '8F-02 완강기 (동측/809호 앞)',
         location: '사회교육관 8층 동측 복도 끝 외벽',
-        ropeLength: '24m (8층 전용 규격)',
-        maxLoad: '150kg (1인용)',
-        checkStatus: '정상 작동 (월간 점검 완료)'
+        rope: '24m (8층 전용)',
+        load: '150kg (1인용)',
+        isRepairing: false,
+        repairNote: '',
+        inspector: '이영희 (시설안전팀 주임)',
+        lastCheck: '2026-10-28 (적합)',
+        dept: '명지전문대학 시설관리팀 (내선: 02-300-XXXX)',
+        vendor: '(주)한국소방안전시스템 (대표: 박안전, 010-XXXX-XXXX)'
       }
     };
 
-    const svgObject = document.getElementById('floor-svg');
-    svgObject.addEventListener('load', function() {
-      const svgDoc = svgObject.contentDocument;
-      if (!svgDoc) return;
-
-      ['btn-8F-01', 'btn-8F-02'].forEach(id => {
-        const targetBtn = svgDoc.getElementById(id);
-        if (targetBtn) {
-          targetBtn.style.cursor = 'pointer';
-          targetBtn.addEventListener('click', () => openModal(id));
-        }
-      });
-    });
-
-    function openModal(id) {
+    function showDescenderInfo(id) {
       const data = descenderData[id];
       if (!data) return;
-      document.getElementById('modalTitle').innerText = data.title;
-      document.getElementById('modalContent').innerHTML = `
+
+      document.getElementById('modalTitle').innerText = data.name;
+
+      // 보수 상황 발생 배너
+      const repairDiv = document.getElementById('repairBox');
+      if (data.isRepairing) {
+        repairDiv.innerHTML = `
+          <div class="repair-banner">
+            <div>🚨 [보수상황 발생] ${data.repairNote}</div>
+          </div>
+        `;
+      } else {
+        repairDiv.innerHTML = '';
+      }
+
+      // 1. 일반인 (외부인용 기본 정보)
+      let html = `
         <strong>설치 위치:</strong> ${data.location}<br>
-        <strong>로프 제원:</strong> ${data.ropeLength}<br>
-        <strong>최대 하중:</strong> ${data.maxLoad}<br>
-        <strong>점검 상태:</strong> ${data.checkStatus}
+        <strong>로프 제원:</strong> ${data.rope}<br>
+        <strong>최대 허용하중:</strong> ${data.load}<br>
+        <strong>상태:</strong> ${data.isRepairing ? '<span style="color:red; font-weight:bold;">보수 조치 중</span>' : '정상 사용 가능'}<br>
       `;
+
+      // 2. 내부인 (학번 인증자) 추가 정보
+      if (currentRole === 'student' || currentRole === 'admin') {
+        html += `
+          <hr style="margin: 8px 0; border: none; border-top: 1px dashed #cbd5e1;">
+          <strong style="color:#1d4ed8;">[내부인 열람 정보]</strong><br>
+          <strong>최근 점검자:</strong> ${data.inspector}<br>
+          <strong>최종 점검일:</strong> ${data.lastCheck}<br>
+        `;
+      } else {
+        html += `
+          <div class="restricted-box">
+            🔒 점검자 및 상세 보수 내역은 <strong>[학번 인증]</strong> 후 열람 가능합니다.
+          </div>
+        `;
+      }
+
+      // 3. 관리자 전용 정보
+      if (currentRole === 'admin') {
+        html += `
+          <hr style="margin: 8px 0; border: none; border-top: 1px dashed #cbd5e1;">
+          <strong style="color:#b91c1c;">[관리자 보안 항목]</strong><br>
+          <strong>담당 관리부서:</strong> ${data.dept}<br>
+          <strong>유지보수 업체/명의:</strong> ${data.vendor}<br>
+        `;
+      } else if (currentRole === 'student') {
+        html += `
+          <div class="restricted-box" style="background:#fef2f2; border-color:#fecaca; color:#991b1b;">
+            🔒 관리부서 및 외주 업체 연락처는 관리자만 열람 가능합니다.
+          </div>
+        `;
+      }
+
+      document.getElementById('modalContent').innerHTML = html;
       document.getElementById('infoModal').style.display = 'flex';
     }
 
-    function closeModal() {
-      document.getElementById('infoModal').style.display = 'none';
+    // 인증 팝업 제어
+    function openAuthModal(type) {
+      targetAuthType = type;
+      const title = document.getElementById('loginModalTitle');
+      const label = document.getElementById('inputLabel');
+      const input = document.getElementById('authInput');
+      input.value = '';
+
+      if (type === 'student') {
+        title.innerText = '교내 구성원(학번) 인증';
+        label.innerText = '학번 8자리~10자리 입력:';
+        input.placeholder = '학번을 입력하세요 (예: 2025123456)';
+        input.type = 'text';
+      } else {
+        title.innerText = '관리자 보안 인증';
+        label.innerText = '관리자 접근 비밀코드 입력:';
+        input.placeholder = '관리자 코드를 입력하세요';
+        input.type = 'password';
+      }
+      document.getElementById('loginModal').style.display = 'flex';
+    }
+
+    function submitAuth() {
+      const val = document.getElementById('authInput').value.trim();
+      if (!val) {
+        alert('정보를 입력해 주세요.');
+        return;
+      }
+
+      if (targetAuthType === 'student') {
+        // 학번 형식 확인 (숫자 6자리 이상)
+        if (val.length < 6 || isNaN(val)) {
+          alert('올바른 학번 형식을 입력하세요.');
+          return;
+        }
+        currentRole = 'student';
+        currentStudentId = val;
+        updateRoleUI('교내 구성원 (내부인용)', 'badge-student', `인증 학번: ${val}`);
+        alert('내부인(학생) 인증이 완료되었습니다. 상세 점검자 및 보수 정보가 활성화됩니다.');
+      } else if (targetAuthType === 'admin') {
+        // 관리자 테스트 마스터 키: admin1234
+        if (val === 'admin1234') {
+          currentRole = 'admin';
+          updateRoleUI('시설 관리자 (전체 열람)', 'badge-admin', '관리자 권한 활성화됨');
+          alert('관리자 인증 완료. 모든 보안 항목 및 연락처가 공개됩니다.');
+        } else {
+          alert('관리자 접근 코드가 일치하지 않습니다.');
+          return;
+        }
+      }
+
+      closeModal('loginModal');
+    }
+
+    function updateRoleUI(badgeText, badgeClass, userSubText) {
+      const badge = document.getElementById('roleBadge');
+      badge.innerText = badgeText;
+      badge.className = `badge ${badgeClass}`;
+      document.getElementById('userInfoText').innerText = userSubText;
+      document.getElementById('logoutBtn').style.display = 'inline-block';
+    }
+
+    function logout() {
+      currentRole = 'guest';
+      currentStudentId = '';
+      const badge = document.getElementById('roleBadge');
+      badge.innerText = '일반인 (외부인용)';
+      badge.className = 'badge badge-guest';
+      document.getElementById('userInfoText').innerText = '';
+      document.getElementById('logoutBtn').style.display = 'none';
+      alert('일반인(외부인) 모드로 전환되었습니다.');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
     }
 
     function closeModalOnBg(e) {
-      if (e.target.id === 'infoModal') closeModal();
+      if (e.target.id === 'infoModal') closeModal('infoModal');
     }
   </script>
 </body>

@@ -140,7 +140,7 @@
       width: 100%;
       border-radius: 20px 20px 0 0;
       padding: 20px 18px 28px 18px;
-      max-height: 88vh;
+      max-height: 90vh;
       overflow-y: auto;
       animation: slideUp 0.25s ease-out;
     }
@@ -164,7 +164,7 @@
 
     .photo-container {
       width: 100%;
-      height: 220px;
+      height: 200px;
       border-radius: 10px;
       overflow: hidden;
       margin-bottom: 12px;
@@ -179,6 +179,54 @@
       height: 100%;
       object-fit: cover;
       display: block;
+    }
+
+    /* 4단계 퀵 가이드 카드 */
+    .guide-card {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .guide-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #b45309;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .guide-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      font-size: 11.5px;
+      color: #1e293b;
+    }
+    .guide-step {
+      background: #ffffff;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #fed7aa;
+      line-height: 1.4;
+    }
+
+    /* 비상 사용법 영상 버튼 */
+    .btn-video {
+      display: block;
+      width: 100%;
+      background: #f1f5f9;
+      color: #0f172a;
+      text-align: center;
+      text-decoration: none;
+      padding: 9px 0;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid #cbd5e1;
+      margin-top: 8px;
     }
 
     .sheet-info {
@@ -271,8 +319,35 @@
       <div class="sheet-handle"></div>
       <div id="modalTitle" class="sheet-title">완강기 정보</div>
       
+      <!-- 실물 현장 완강기 사진 -->
       <div class="photo-container">
         <img id="descenderPhoto" src="" alt="완강기 현장 사진">
+      </div>
+
+      <!-- 4단계 사용법 퀵 가이드 및 영상 링크 -->
+      <div class="guide-card">
+        <div class="guide-title">
+          <span>🚨 비상 탈출 4단계 사용법</span>
+          <span style="font-size:10px; font-weight:normal; color:#d97706;">기기 부착 기준</span>
+        </div>
+        <div class="guide-grid">
+          <div class="guide-step">
+            <strong style="color:#d97706;">1.</strong> 후크를 걸고 안전한지 확인[cite: 18]
+          </div>
+          <div class="guide-step">
+            <strong style="color:#d97706;">2.</strong> 릴을 걸리지 않게 아래로 투하[cite: 18]
+          </div>
+          <div class="guide-step">
+            <strong style="color:#d97706;">3.</strong> 가슴 벨트조임쇠를 단단히 조임[cite: 18]
+          </div>
+          <div class="guide-step">
+            <strong style="color:#d97706;">4.</strong> 벽을 향해 짚으며 안전 하강[cite: 18]
+          </div>
+        </div>
+        <!-- 추후 제작할 영상 링크 (YouTube 쇼츠 또는 영상 링크 연결용) -->
+        <a id="videoLinkBtn" href="https://www.youtube.com/results?search_query=%EC%99%84%EA%B0%95%EA%B8%B0+%EC%82%AC%EC%9A%A9%EB%B2%95" target="_blank" class="btn-video">
+          🎬 10초 완강기 사용법 시연 영상 보기
+        </a>
       </div>
 
       <div id="repairBox"></div>
@@ -302,10 +377,9 @@
   </div>
 
   <script>
-    let currentRole = 'guest'; // 'guest', 'student', 'admin'
+    let currentRole = 'guest';
     let targetAuthType = '';
 
-    // 실물 성능 제원표 데이터 반영
     const descenderData = {
       'btn-8F-01': {
         name: '8F-01 완강기 (서측/806호 앞)',
@@ -362,7 +436,6 @@
         repairDiv.innerHTML = '';
       }
 
-      // 제원표 실물 정보 표기
       let html = `
         <strong>📍 설치 위치:</strong> ${data.location}<br>
         <strong>📅 제조년월:</strong> ${data.mfgDate}<br>
@@ -372,7 +445,6 @@
         <strong>상태:</strong> ${data.isRepairing ? '<span style="color:red; font-weight:bold;">보수 조치 중</span>' : '정상 작동'}<br>
       `;
 
-      // 내부인 (학번 10자리)
       if (currentRole === 'student' || currentRole === 'admin') {
         html += `
           <hr style="margin: 10px 0; border: none; border-top: 1px dashed #cbd5e1;">
@@ -388,7 +460,6 @@
         `;
       }
 
-      // 관리자
       if (currentRole === 'admin') {
         html += `
           <hr style="margin: 10px 0; border: none; border-top: 1px dashed #cbd5e1;">

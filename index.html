@@ -2,7 +2,6 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <!-- 모바일 가로 100% 핏 및 두 손가락 핀치 줌 허용 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0, user-scalable=yes">
   <title>사회교육관 8층 완강기 디지털 안전 지도</title>
   <style>
@@ -36,7 +35,7 @@
       margin-top: 2px;
     }
     
-    /* 권한 상태 표시 바 (일반인 / 학생 단일 분기) */
+    /* 상단 상태 바 (일반인 / 교내 구성원 단일 분기) */
     .auth-bar {
       background: #ffffff;
       padding: 8px 12px;
@@ -113,7 +112,7 @@
       50% { opacity: 0.95; transform: scale(0.98); }
     }
 
-    /* 도면 카드: 모바일 한눈에 100% 핏 */
+    /* 도면 카드: 모바일 한눈에 100% 맞춤 */
     .map-card {
       background: #ffffff;
       border-radius: 12px;
@@ -145,7 +144,7 @@
       pointer-events: none;
     }
 
-    /* 외부인 모드: 강의실 번호 숨김 처리 */
+    /* 외부인 모드: 강의실 번호 숨김 */
     .hide-classroom-labels text {
       display: none !important;
     }
@@ -322,7 +321,7 @@
     <p id="guideText">일반인 모드: 피난 구조 지도 (강의실 호수 비공개)</p>
   </div>
 
-  <!-- 상단 권한 바 -->
+  <!-- 상단 권한 바 (관리자 버튼 완전 삭제됨) -->
   <div class="auth-bar">
     <div class="auth-status">
       <span id="roleBadge" class="badge badge-guest">일반인용</span>
@@ -363,7 +362,7 @@
       <div class="sheet-handle"></div>
       <div id="modalTitle" class="sheet-title">완강기 정보</div>
       
-      <!-- 실물 사진 -->
+      <!-- 실물 완강기 사진 -->
       <div class="photo-container">
         <img id="descenderPhoto" src="" alt="완강기 현장 사진">
       </div>
@@ -472,7 +471,7 @@
         repairDiv.innerHTML = '';
       }
 
-      // 기본 제원 정보
+      // 제원 정보 출력
       let html = `
         <strong>📍 설치 위치:</strong> ${data.location}<br>
         <strong>📅 제조년월:</strong> ${data.mfgDate}<br>
@@ -482,7 +481,7 @@
         <strong>상태:</strong> ${data.isRepairing ? '<span style="color:red; font-weight:bold;">보수 조치 중</span>' : '정상 작동'}<br>
       `;
 
-      // 내부인 (학번 10자리 인증 시 노출)
+      // 학번 10자리 인증 시 노출
       if (currentRole === 'student') {
         html += `
           <hr style="margin: 10px 0; border: none; border-top: 1px dashed #cbd5e1;">
@@ -526,7 +525,6 @@
       closeSheet('loginModal');
     }
 
-    // 도면 강의실 번호 On/Off
     function applyMapDisplay(showClassroom) {
       const mapContainer = document.getElementById('mapContainer');
       const svgObj = document.getElementById('floorSvgObj');
@@ -549,7 +547,7 @@
           });
         }
       } catch (e) {
-        console.log('SVG 레이블 제어 완료');
+        console.log('SVG 제어 완료');
       }
     }
 
